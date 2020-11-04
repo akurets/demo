@@ -5,7 +5,6 @@ import com.example.demo.exceptions.NoDataDirException;
 import com.example.demo.exceptions.NoDataException;
 import com.example.demo.model.dto.DataDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class FileDataHandlerTest {
@@ -57,17 +59,17 @@ class FileDataHandlerTest {
 	@Test
 	void checkGetDataByIdWithCorrectId() throws NoDataException {
 		DataDto dataById = dataHandler.getDataById(1);
-		Assertions.assertEquals(expectedDataDto, dataById);
+		assertEquals(expectedDataDto, dataById);
 	}
 
 	@Test
 	void checkGetDataByIdWithIncorrectId() {
-		Assertions.assertThrows(NoDataException.class, () -> dataHandler.getDataById(expectedNextId));
+		assertThrows(NoDataException.class, () -> dataHandler.getDataById(expectedNextId));
 	}
 
 	@Test
 	void save() throws CannotSaveDataException {
 		int savedId = dataHandler.save(expectedDataDto, Optional.empty());
-		Assertions.assertEquals(expectedNextId, savedId);
+		assertEquals(expectedNextId, savedId);
 	}
 }
